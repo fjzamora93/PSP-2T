@@ -1,6 +1,6 @@
 package client.ui;
 
-import client.controller.ClienteController;
+import client.Repository.ClientRepository;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -14,10 +14,10 @@ import java.util.Scanner;
 public class MenuScreen {
 
     private Scanner scanner = new Scanner(System.in);
-    private ClienteController clienteController;
+    private ClientRepository clientRepository;
 
-    public MenuScreen(ClienteController clienteController) {
-        this.clienteController = clienteController;
+    public MenuScreen(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
 
@@ -33,12 +33,12 @@ public class MenuScreen {
         switch ( option){
             case "1":
                 System.out.println("Introduzca el título completo o una parte del título en inglés");
-                clienteController.findByTitle(scanner.nextLine());
+                System.out.println(clientRepository.findByTitle(scanner.nextLine()));
 
                 break;
             case "2":
                 System.out.println("Introduzca el año de la película");
-                clienteController.findByYear(scanner.nextLine());
+                System.out.println(clientRepository.findByYear(scanner.nextLine()));
                 break;
         }
     }

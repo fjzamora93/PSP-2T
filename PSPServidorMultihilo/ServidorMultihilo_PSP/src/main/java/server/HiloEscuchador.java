@@ -10,41 +10,30 @@ public class HiloEscuchador implements Runnable{
     private Thread hilo;
     private static int numCliente = 0;
     private Socket enchufeAlCliente;
-    private MovieService movieService;
+    private RequestHandler requestHandler;
 
-
-    public HiloEscuchador(Socket cliente) {
+    public HiloEscuchador(Socket cliente) throws IOException {
+        this.requestHandler = new RequestHandler();
         numCliente++;
         hilo = new Thread(this, "Cliente"+numCliente);
         this.enchufeAlCliente = cliente;
         hilo.start();
-        movieService = new MovieService();
     }
+
+
     @Override
     public void run() {
         System.out.println("Estableciendo comunicación con " + hilo.getName());
         try {
-            InputStream entrada = enchufeAlCliente.getInputStream();
-            OutputStream salida = enchufeAlCliente.getOutputStream();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(entrada, StandardCharsets.UTF_8));
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(salida, StandardCharsets.UTF_8), true);
-
+            ClientCommunication communication = new ClientCommunication(this.enchufeAlCliente);
             String texto;
-            while ((texto = reader.readLine()) != null) {
-
-                if (texto.trim().equals("FIN")) {
-                    writer.println("Hasta pronto, gracias por establecer conexión");
-                    System.out.println(hilo.getName()+" ha cerrado la comunicación");
-                } else {
-                    System.out.println(hilo.getName() + " dice: " + texto);
-                    String researchResult = movieService.findByTitle(texto);
-                    writer.println(researchResult);
-                }
+            while ((texto = communication.readRequest()) != null) {
+                String response = requestHandler.processRequest(texto);
+                communication.sendResponse(response);
             }
-            entrada.close();
-            salida.close();
+            communication.close();
             enchufeAlCliente.close();
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {

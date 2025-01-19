@@ -1,7 +1,7 @@
 package client;
 
 import client.ui.MenuScreen;
-import client.controller.ClienteController;
+import client.Repository.ClientRepository;
 import config.Constants;
 
 import java.io.*;
@@ -25,14 +25,14 @@ public class ClientApp {
             cliente.connect(direccionServidor);
             System.out.println("Comunicación establecida con el servidor");
 
-            ClienteController clienteController = new ClienteController(cliente);
-            MenuScreen menuScreen = new MenuScreen(clienteController);
+            ClientRepository clientRepository = new ClientRepository(cliente);
+            MenuScreen menuScreen = new MenuScreen(clientRepository);
 
-            while (clienteController.getIsOPen()) {
+            while (clientRepository.getIsOPen()) {
                 menuScreen.displayMenu();
             }
 
-            clienteController.closeConnection();
+            clientRepository.closeConnection();
 
         } catch (UnknownHostException e) {
             System.out.println("No se puede establecer comunicación con el servidor");
