@@ -1,7 +1,10 @@
 package server;
 
+import server.service.MovieService;
+
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class HiloEscuchador implements Runnable{
     private Thread hilo;
@@ -23,19 +26,20 @@ public class HiloEscuchador implements Runnable{
         try {
             InputStream entrada = enchufeAlCliente.getInputStream();
             OutputStream salida = enchufeAlCliente.getOutputStream();
-            String texto = "";
-            while (!texto.trim().equals("FIN")) {
-                byte[] mensaje = new byte[100];
-                entrada.read(mensaje);
-                texto = new String(mensaje).trim();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(entrada, StandardCharsets.UTF_8));
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(salida, StandardCharsets.UTF_8), true);
+
+            String texto;
+            while ((texto = reader.readLine()) != null) {
 
                 if (texto.trim().equals("FIN")) {
-                    salida.write("Hasta pronto, gracias por establecer conexión".getBytes());
+                    writer.println("Hasta pronto, gracias por establecer conexión");
                     System.out.println(hilo.getName()+" ha cerrado la comunicación");
                 } else {
                     System.out.println(hilo.getName() + " dice: " + texto);
-                    String researchResult = movieService.buscarPelicula(texto);
-                    salida.write(("Resultados de la búsqueda en el HiloEscuchador " + researchResult).getBytes());
+                    String researchResult = movieService.findByTitle(texto);
+                    writer.println(researchResult);
                 }
             }
             entrada.close();
