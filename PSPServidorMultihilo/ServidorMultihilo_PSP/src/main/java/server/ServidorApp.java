@@ -1,13 +1,14 @@
 package server;
 
 import config.Constants;
+import server.threads.HiloEscuchador;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Servidor {
+public class ServidorApp {
 
 
 
@@ -27,6 +28,10 @@ public class Servidor {
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+            System.out.println("Cerrando conexión");
         }
     }
 }

@@ -1,4 +1,4 @@
-package server;
+package server.service;
 
 
 import java.io.IOException;
@@ -7,6 +7,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * Conexión a la API.
+ *
+ * Se trata de una API de películas muy básica. No puede ni devolver grandes cantidades de datos ni aceptar solicitudes muy complejas, aunque cumple para el ejercicio.
+ * */
 public class Api {
     private final HttpClient httpClient;
 

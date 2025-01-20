@@ -1,5 +1,10 @@
 package client.Repository;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import org.json.JSONObject;
+import server.model.Movie;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -28,17 +33,22 @@ public class ClientRepository {
         this.writer = new PrintWriter(new OutputStreamWriter(salida), true);
     }
 
-    public  String findByTitle(String title) throws IOException {
-        writer.println(title);
-        System.out.println("Find by " + title);
-        return reader.readLine();
+    public  void sendRequest(JSONObject request) throws IOException {
+        writer.println(request);
+        System.out.println("Petición lanzada " + request);
     }
 
-    public  String findByYear(String year) throws IOException {
-        writer.println(year);
-        System.out.println("Find by " + year);
-        return reader.readLine();
+    public Movie receiveResponse() throws IOException {
+        String response =  reader.readLine();
+        Gson gson = new Gson();
+
+        JsonObject jsonObject = gson.fromJson(response, JsonObject.class);
+        String bodyJson = jsonObject.get("body").getAsString();
+
+        Movie movie = gson.fromJson(bodyJson, Movie.class);
+        return movie;
     }
+
 
     public void closeConnection() throws IOException {
         entrada.close();

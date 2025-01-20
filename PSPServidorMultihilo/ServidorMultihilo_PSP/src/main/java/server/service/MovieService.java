@@ -1,8 +1,11 @@
 package server.service;
 
 import config.Constants;
-import server.Api;
 
+
+/**
+ * Esta capa es un poco "rara", ya que nuestro servidor le está mandando peticiones a otro servidor y se convierte en cliente de este al mismo tiempo.
+ * */
 public class MovieService {
     private final Api api;
 
@@ -16,7 +19,7 @@ public class MovieService {
     }
 
     public String findByYear(String year) throws Exception {
-        String endpoint = Constants.BASE_URL + "?apikey=" + Constants.API_KEY + "&y=" + year;
+        String endpoint = Constants.BASE_URL + "?apikey=" + Constants.API_KEY + "&y=" + year + "&t=" + "main";
         return api.get(endpoint);
     }
 }

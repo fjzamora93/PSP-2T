@@ -3,6 +3,7 @@ package client;
 import client.ui.MenuScreen;
 import client.Repository.ClientRepository;
 import config.Constants;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -26,10 +27,14 @@ public class ClientApp {
             System.out.println("Comunicación establecida con el servidor");
 
             ClientRepository clientRepository = new ClientRepository(cliente);
-            MenuScreen menuScreen = new MenuScreen(clientRepository);
+            MenuScreen menuScreen = new MenuScreen();
 
-            while (clientRepository.getIsOPen()) {
+
+            while (!menuScreen.isExit()) {
                 menuScreen.displayMenu();
+                JSONObject request = menuScreen.onOptionSelect();
+                clientRepository.sendRequest(request);
+                menuScreen.displayMovieData(clientRepository.receiveResponse());
             }
 
             clientRepository.closeConnection();
@@ -40,6 +45,9 @@ public class ClientApp {
         } catch (IOException e) {
             System.out.println("Error de E/S");
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Cerrando conexión");
         }
     }
 }

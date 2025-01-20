@@ -1,19 +1,21 @@
-package server;
+package server.threads;
 
-import server.service.MovieService;
+import org.json.JSONObject;
+import server.controllers.MovieController;
+import server.routes.MovieRoutes;
+import server.utils.ClientCommunication;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 
 public class HiloEscuchador implements Runnable{
     private Thread hilo;
     private static int numCliente = 0;
     private Socket enchufeAlCliente;
-    private RequestHandler requestHandler;
+    private MovieRoutes movieRoutes;
 
     public HiloEscuchador(Socket cliente) throws IOException {
-        this.requestHandler = new RequestHandler();
+        this.movieRoutes = new MovieRoutes();
         numCliente++;
         hilo = new Thread(this, "Cliente"+numCliente);
         this.enchufeAlCliente = cliente;
@@ -26,9 +28,11 @@ public class HiloEscuchador implements Runnable{
         System.out.println("Estableciendo comunicación con " + hilo.getName());
         try {
             ClientCommunication communication = new ClientCommunication(this.enchufeAlCliente);
-            String texto;
-            while ((texto = communication.readRequest()) != null) {
-                String response = requestHandler.processRequest(texto);
+
+            JSONObject request;
+            while ((request = communication.readRequest()) != null) {
+                JSONObject response = movieRoutes.processRequest(request);
+                System.out.println("Tratando den enviar respuesta..." + response);
                 communication.sendResponse(response);
             }
             communication.close();
@@ -36,8 +40,16 @@ public class HiloEscuchador implements Runnable{
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("Y se fué...");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println("Cerrando conexión");
+        } finally {
+            try {
+                enchufeAlCliente.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
