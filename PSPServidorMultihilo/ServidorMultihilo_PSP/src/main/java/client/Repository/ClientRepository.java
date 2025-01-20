@@ -12,8 +12,11 @@ import java.net.Socket;
 /**
  * ARQUITECTURA:
  *
- * - Si la respuesta va a ser parseada y utilizada directamente, se puede quedar dentro del repositorio.
- * - Si es necesario aplicar lógica adicional, crear una clase "ControllerCLient" y aplicar ahí la lógica de negocio.
+ * -EN un principio este repositorio solamente debería establecer la comunicación con el servidor.
+ *
+ * - Sin embargo, está aplicando también una capa lógica al procesar la información que se recibe.
+ *
+ * - Idealmente, este procesamiento de información debería quedar en otra capa intermedia entre el repositorio y la interfaz por consola.
  * */
 public class ClientRepository {
     public   Socket cliente;
@@ -38,6 +41,12 @@ public class ClientRepository {
         System.out.println("Petición lanzada " + request);
     }
 
+    /** TODO: El repositorio no debería parsear la respuesta, debería enviarla a otra capa que la procese correctamente
+     *
+     * En caso de que dicha capa tuviese headers, debería leerlos correctamente y actuar en consecuencia.
+     *
+     * Para simplificar el código, hemos eliminado ese trámite y directamente enviamos la respuesta ya parseada y convertida en una clase de Java.
+     * */
     public Movie receiveResponse() throws IOException {
         String response =  reader.readLine();
         Gson gson = new Gson();
