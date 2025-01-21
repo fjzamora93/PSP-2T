@@ -1,0 +1,4 @@
+Número: 7, Procesado por: Thread-2, ¿Es primo?: Sí, Tiempo de procesamiento: 0ms
+Número: 4, Procesado por: Thread-2, ¿Es primo?: No, Tiempo de procesamiento: 0ms
+Número: 3, Procesado por: Thread-2, ¿Es primo?: Sí, Tiempo de procesamiento: 0ms
+Número: 2, NOmbre del proceso: Thread-2, ¿Es primo?: true, Tiempo de precesamiento: 0ms
