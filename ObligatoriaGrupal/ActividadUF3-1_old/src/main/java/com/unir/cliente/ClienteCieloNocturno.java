@@ -1,7 +1,6 @@
 package com.unir.cliente;
 import com.unir.common.ConstelacionInterfaceRMI;
 import com.unir.common.EstrellaInterfaceRMI;
-import com.unir.common.PlanetaInterfaceRMI;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -17,13 +16,12 @@ public class ClienteCieloNocturno {
             //objeto remoto,
             //obtener el acceso al registro de objetos remotos a través de la misma dirección IP y puerto suministrado
             //acordaos de cambiar la IP
-            registry = LocateRegistry.getRegistry("192.168.56.1", 5055);
+            registry = LocateRegistry.getRegistry("192.168.1.156", 5055);
             System.out.println("Hemos obtenido el registro");
             //stub a partir del identificador del objeto suministrado en el programa servidor
 
             ConstelacionInterfaceRMI contelaciones = (ConstelacionInterfaceRMI) registry.lookup("miConstelacion");
             EstrellaInterfaceRMI estrellas = (EstrellaInterfaceRMI) registry.lookup("miEstrella");
-            PlanetaInterfaceRMI planetas = (PlanetaInterfaceRMI) registry.lookup("miPlaneta");
 
             System.out.println("Hemos obtenido el objeto remoto");
             System.out.println();
@@ -43,12 +41,6 @@ public class ClienteCieloNocturno {
                         buscado = lector.nextLine();
                         System.out.println(estrellas.buscarNombre(buscado));
                         break;
-                    case "P":
-                        System.out.println("Escribe nombre Planeta: ");
-                        buscado = lector.nextLine();
-                        System.out.println(planetas.buscarPorNombre(buscado));
-                        break;
-
                     case "FIN":
                         System.out.println("Programa finalizado");
                         break;
@@ -68,7 +60,6 @@ public class ClienteCieloNocturno {
         System.out.println("FIN = Para cerrar programa");
         System.out.println("C = Constelación");
         System.out.println("E = Estrella");
-        System.out.println("P = Planeta");
 
     }
 }

@@ -23,11 +23,9 @@ public class ServidorRMI {
             //crea un objeto
             ConstelacionRMI constelacion = new ConstelacionRMI();
             EstrellaRMI estrella = new EstrellaRMI();
-            PlanetaRMI planeta = new PlanetaRMI();
             //Inscripción del stub en el registro y puesto a disposición de los clientes bajo el nombre "miConstelacion".
             registro.rebind("miConstelacion", constelacion);
             registro.rebind("miEstrella", estrella);
-            registro.rebind("miPlaneta", planeta);
 
 
             System.out.println("Servicio registrado en host " + host + " y puerto " + puerto);
