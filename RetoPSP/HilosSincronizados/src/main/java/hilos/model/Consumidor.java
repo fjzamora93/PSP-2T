@@ -19,7 +19,7 @@ public class Consumidor extends Thread {
             while (numeroIntento < 5) {
                 Vacante vacanteConsumido = buffer.consume();
                 if (vacanteConsumido != null) {
-                    System.out.println("Se postuló la vacante con ID: " + vacanteConsumido.getId());
+                    System.out.println("Se postuló la vacante con ID: " + Vacante.getId());
                 } else {
                     numeroIntento++;
                     System.out.println("INtento número " + numeroIntento);

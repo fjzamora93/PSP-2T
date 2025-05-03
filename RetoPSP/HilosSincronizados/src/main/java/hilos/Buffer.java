@@ -16,7 +16,7 @@ public class Buffer {
     // Método para agregar una vacante a la lista
     public synchronized void produce(Vacante vacante) {
         listaVacantes.add(vacante);
-        System.out.println("Postulando candidatura para la vacante " + vacante.getTittle() + " con ID " + vacante.getId());
+        System.out.println("Aceptando candidaturas para " + vacante.getTittle() + " con fecha " + vacante.getDate());
         notify(); // Despierta a un consumidor esperando
     }
 
@@ -29,7 +29,7 @@ public class Buffer {
             }
         }
         Vacante vacante = listaVacantes.remove();
-        System.out.println("Creado nuevo puesto " + vacante.getTittle() + " con ID " + vacante.getId());
+        System.out.println("Postulando candidatura para la vacante " + vacante.getTittle() + " de la empresa " + vacante.getCompany());
         return vacante;
     }
 }

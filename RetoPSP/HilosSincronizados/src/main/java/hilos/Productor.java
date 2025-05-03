@@ -19,10 +19,11 @@ public class Productor extends Thread {
     public void run() {
         try {
             while (this.contadorId <= 10) {
+                Vacante.setId(this.contadorId);
                 this.contadorId ++;
                 Vacante nuevoVacante = new Vacante(
                         "Nº de la vacante: " + contadorId,
-                        "Esta es la vacante para el puesto nº"+ this.idProductor*7 ,
+                        "Esta es la vacante para el puesto nº"+ idProductor*7 ,
                         "0" + contadorId + "/05/2025",
                         "Para la empresa Nº: " + contadorId*3
                 );

@@ -1,5 +1,13 @@
 # Hilos sincronizados
 
+Podemos lograr la sincronizacion de dos maneras:
+- extends Thread (extiende una clase)
+- implements Runnable (implementa una interface)
+
+COmo Java no permite herencia múltiple, lo recomendable es implements Runnable. Aunque por todo lo demás, funcionan exactamente igual.
+
+
+
 Pasos a seguir:
 - Crear una clase Productor.
 - Crear una clase Consumidor.
@@ -147,3 +155,32 @@ public class Consumidor extends Thread {
 ```
 
 
+# Start
+
+A partir de aquí, simplemente le damos al método Start y pondrá a correr los hilos:
+
+```
+public class Main {
+
+    public static void main(String[] args) {
+        // Crear el buffer compartido
+        Buffer buffer = new Buffer();
+
+        // Crear 3 hilos ProductorMails
+        Productor productor1 = new Productor(buffer);
+        Productor productor2 = new Productor(buffer);
+        Productor productor3 = new Productor(buffer);
+
+        Consumidor consumidor1 = new Consumidor(buffer);
+        Consumidor consumidor2 = new Consumidor(buffer);
+
+        // Iniciar los hilos
+        productor1.start();
+        productor2.start();
+        productor3.start();
+
+        consumidor1.start();
+        consumidor2.start();
+    }
+}
+```

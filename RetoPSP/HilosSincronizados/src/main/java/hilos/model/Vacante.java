@@ -19,5 +19,8 @@ public class Vacante {
     public static int getId() {
         return id;
     }
+    public static void setId(int id) {
+        Vacante.id = id;
+    }
 
 }
