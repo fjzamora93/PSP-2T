@@ -3,7 +3,7 @@
 GITHUB: https://github.com/fjzamora93/PSP-2T
 
 
-- **PSPSErvidorMultihilo**: actividad obligatoria del segundo trimestre.
+- **PSPSErvidorMultihilo**: actividad obligatoria del segundo trimestre..
 
 - **Opcional1_1-4.Hilos**: primera actividad opcional.
 
